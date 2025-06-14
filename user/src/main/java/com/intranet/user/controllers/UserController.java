@@ -38,20 +38,13 @@ public class UserController {
 
 	@PostMapping("/create")
 	public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserModel user) {
-		Map<String, Object> response = new HashMap<>();
 		UserModel service_response = userService.createUserToDataBase(user);
-		response.put("message", "User created successfully");
-		response.put("data", service_response);
-		return ResponseEntity.ok(response);
+		return generateResponse("User created successfully", service_response);
 	}
 
-	@GetMapping("/users_list")
-	public ResponseEntity<Map<String, Object>> getUsersList(@RequestParam String param) {
-		Map<String, Object> response = new HashMap<>();
+	@GetMapping("/find_user")
+	public ResponseEntity<Map<String, Object>> getUsersList() {
 		List<UserModel> results = userService.getUsersFromDatabase();
-		response.put("message", "User created successfully");
-		response.put("data", results);
-		return ResponseEntity.ok(response);
+		return generateResponse("User Finded successfully", results);
 	}
-
 }
