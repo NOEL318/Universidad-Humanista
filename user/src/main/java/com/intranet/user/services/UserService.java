@@ -1,6 +1,7 @@
 package com.intranet.user.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,25 @@ public class UserService {
 	public List<UserModel> getUsersFromDatabase() {
 		List<UserEntity> users = userRepository.findAll();
 		List<UserModel> users_model_list = userMapper.UserEntityToModel(users);
-		
 		return users_model_list;
+	}
+
+	public UserModel editUserInDatabase(UserModel user) {
+		UserEntity user_entity = userMapper.UserModelToEntity(user);
+		// Exist?
+		userRepository.findById(user_entity.getId())
+				.orElseThrow(() -> new RuntimeException("User Not Found"));
+		UserEntity results = userRepository.save(user_entity);
+		UserModel user_model = userMapper.UserEntityToModel(results);
+		return user_model;
+	}
+
+	public UserModel deleteUserFromDatabase(String id) {
+		UUID uuid = UUID.fromString(id);
+		UserEntity userentity = userRepository.findById(uuid).orElseThrow(() -> new RuntimeException("User Not Found"));
+		UserModel usermodel = userMapper.UserEntityToModel(userentity);
+		userRepository.deleteById(uuid);
+		return usermodel;
 	}
 
 }

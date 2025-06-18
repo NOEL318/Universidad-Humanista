@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +34,7 @@ public class UserModel {
 	private String born_date;
 
 	@NotBlank(message = "Número telefónico es un campo obligatorio.")
-	private String telefono;
+	private String phone;
 
 	@NotBlank(message = "Sexo es un campo obligatorio.")
 	private String sex;
@@ -62,6 +65,7 @@ public class UserModel {
 	@Email
 	private String email;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@NotBlank(message = "Contraseña es un campo obligatorio.")
 	private String password;
 

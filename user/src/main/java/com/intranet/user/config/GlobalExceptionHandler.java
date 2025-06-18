@@ -38,8 +38,8 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
 		Map<String, Object> responseBody = new HashMap<>();
 		responseBody.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-		responseBody.put("message", "Internal server error");
-		responseBody.put("error", ex.getMessage());
+		responseBody.put("message", ex.getMessage());
+		responseBody.put("error", ex.toString());
 
 		return new ResponseEntity<>(responseBody, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

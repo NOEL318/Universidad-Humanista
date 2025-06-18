@@ -5,14 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.intranet.user.models.UserModel;
 import com.intranet.user.services.UserService;
 
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/user")
@@ -36,15 +39,31 @@ public class UserController {
 		return "Hola Usuario";
 	}
 
-	@PostMapping("/create")
-	public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserModel user) {
+	// createUser
+	@PostMapping
+	public ResponseEntity<Map<String, Object>> createUser(@RequestBody @Valid UserModel user) {
 		UserModel service_response = userService.createUserToDataBase(user);
 		return generateResponse("User created successfully", service_response);
 	}
 
-	@GetMapping("/find_user")
+	// getUsersList
+	@GetMapping
 	public ResponseEntity<Map<String, Object>> getUsersList() {
 		List<UserModel> results = userService.getUsersFromDatabase();
 		return generateResponse("User Finded successfully", results);
+	}
+
+	// Edit user
+	@PutMapping
+	public ResponseEntity<Map<String, Object>> editUser(@RequestBody UserModel user) {
+		UserModel results = userService.editUserInDatabase(user);
+		return generateResponse("User Modified successfully", results);
+	}
+
+	// Delete user
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") String id) {
+		UserModel results = userService.deleteUserFromDatabase(id);
+		return generateResponse("User Deleted successfully", results);
 	}
 }
