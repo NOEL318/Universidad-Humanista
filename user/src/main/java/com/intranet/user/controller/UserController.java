@@ -1,14 +1,17 @@
-package com.intranet.user.controllers;
+package com.intranet.user.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.intranet.user.models.UserModel;
-import com.intranet.user.services.UserService;
+
+import com.intranet.user.model.UserModel;
+import com.intranet.user.service.UserService;
 
 import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,10 +50,25 @@ public class UserController {
 	}
 
 	// getUsersList
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<Map<String, Object>> getUsersList() {
 		List<UserModel> results = userService.getUsersFromDatabase();
 		return generateResponse("User Finded successfully", results);
+	}
+
+	// getUsersListById
+	@PostMapping("/allById")
+	public List<UserModel> getUsersList(@RequestBody List<UUID> ids) {
+		List<UserModel> results = userService.getUsersFromDatabaseByIds(ids);
+		return results;
+	}
+
+	// getUser
+	@GetMapping("/{id}")
+	public UserModel getUser(@PathVariable("id") String id) {
+		System.out.println("Callign to id: " + id);
+		UserModel results = userService.getUserFromDatabase(id);
+		return results;
 	}
 
 	// Edit user

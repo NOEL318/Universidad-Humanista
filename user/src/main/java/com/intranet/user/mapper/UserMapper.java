@@ -1,11 +1,11 @@
-package com.intranet.user.mappers;
+package com.intranet.user.mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import com.intranet.user.entities.UserEntity;
-import com.intranet.user.models.UserModel;
+import com.intranet.user.entity.UserEntity;
+import com.intranet.user.model.UserModel;
 
 //Library used: https://mapstruct.org/
 @Mapper(componentModel = "spring")

@@ -23,3 +23,5 @@ management:
     metrics:
       export:
         enabled: false
+server:
+  port: 8081

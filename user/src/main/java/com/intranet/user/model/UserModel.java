@@ -1,4 +1,4 @@
-package com.intranet.user.models;
+package com.intranet.user.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

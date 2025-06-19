@@ -1,4 +1,4 @@
-package com.intranet.user.entities;
+package com.intranet.user.entity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
