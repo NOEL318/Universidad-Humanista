@@ -15,19 +15,19 @@ import lombok.Data;
 @Data
 public class StudentModel {
 
-    public StudentModel() {
+	public StudentModel() {
 
-    }
+	}
 
 	@Id
 	@GeneratedValue
 	@Column(updatable = false, nullable = false)
 	private UUID id;
-	private UUID userId;
+	private UUID user_id;
 	@NotBlank(message = "Matricula es un campo obligatorio")
-	private String enrollmentnumber; // matricula
+	private String enrollment_number; // matricula
 	@NotBlank(message = "Programa Academico es un campo obligatorio")
-	private String academicProgram;
+	private String academic_program;
 	@NotBlank(message = "Semestre es un campo obligatorio")
 	private String semester;
 
@@ -35,29 +35,27 @@ public class StudentModel {
 	private String status; // active, suspended, graduated, off
 
 	@NotNull(message = "El asesor es un campo obligatorio o debe ir vacio")
-	private UUID advisorId; // asesor o tutor academico
+	private UUID advisor_id; // asesor o tutor academico
 	@CreationTimestamp
 	@Column(updatable = false)
 	private LocalDateTime enrollment_date; // fecha de inscripcion
 
-	private LocalDateTime graduationDate; // fecha o estimacion de graduacion
+	private LocalDateTime graduation_date; // fecha o estimacion de graduacion
 
-	private UUID groupId;
-	@NotBlank(message = "Beca es un campo obligatorio")
-	private Boolean scholarhsip; // tiene beca? true \ false
-	private UUID scholarshipId; // ID de la tabla de becas en caso de tener beca
+	private UUID group_id;
+	private Boolean scholarship; // tiene beca? true \ false
+	private UUID scholarship_id; // ID de la tabla de becas en caso de tener beca
 
 	@NotNull(message = "Servicio Social es un campo obligatorio o debe ir vacio")
-	private String serviceSocial;
+	private String service_social_status;
 	@NotNull(message = "Practicas Profesionales es un campo obligatorio o debe ir vacio")
-	private String internship;
+	private String internship_status;
 
 	private String turn;
-
+	private Double score;
 	private String notes;
-
 	@NotNull(message = "Expediente es un campo obligatorio o debe ir vacio")
-	private UUID medicalRecordId;
+	private UUID medical_record_id;
 
-	private Integer disciplinaryReportCount; 
+	private Integer disciplinary_report_count;
 }

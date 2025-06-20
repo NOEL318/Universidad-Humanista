@@ -1,0 +1,226 @@
+openapi: 3.0.3
+info:
+  title: Universidad Humanista - Member Module
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8081
+
+tags:
+  - name: student
+    description: Endpoints para gestión de estudiantes
+
+paths:
+  /student/hi:
+    get:
+      tags: [student]
+      summary: Test endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /student:
+    get:
+      tags: [student]
+      summary: Obtener todos los estudiantes
+      responses:
+        '200':
+          description: Lista de estudiantes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FullStudentModel'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags: [student]
+      summary: Crear un nuevo estudiante
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentModel'
+      responses:
+        '200':
+          description: Estudiante creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/StudentModel'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /student/{id}:
+    get:
+      tags: [student]
+      summary: Obtener estudiante por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Estudiante encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/FullStudentModel'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    StudentModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        enrollment_number:
+          type: string
+        academic_program:
+          type: string
+        semester:
+          type: string
+        status:
+          type: string
+        advisor_id:
+          type: string
+          format: uuid
+        enrollment_date:
+          type: string
+          format: date-time
+        graduation_date:
+          type: string
+          format: date-time
+        group_id:
+          type: string
+          format: uuid
+        scholarship:
+          type: boolean
+        scholarship_id:
+          type: string
+          format: uuid
+        service_social_status:
+          type: string
+        internship_status:
+          type: string
+        turn:
+          type: string
+        notes:
+          type: string
+        medical_record_id:
+          type: string
+          format: uuid
+        disciplinary_report_count:
+          type: integer
+
+    UserModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        father_surname:
+          type: string
+        mother_surname:
+          type: string
+        born_date:
+          type: string
+        phone:
+          type: string
+        sex:
+          type: string
+        address:
+          type: string
+        photo_url:
+          type: string
+        role:
+          type: string
+        curp:
+          type: string
+        status:
+          type: string
+        registry_date:
+          type: string
+          format: date-time
+        email:
+          type: string
+        access_card_code:
+          type: string
+
+    FullStudentModel:
+      type: object
+      properties:
+        memberStudentModel:
+          $ref: '#/components/schemas/StudentModel'
+        usermodel:
+          $ref: '#/components/schemas/UserModel'
+
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-06-19T12:34:56.789Z"
+        status:
+          type: integer
+          example: 500
+        error:
+          type: string
+          example: "Internal Server Error"
+        message:
+          type: string
+          example: "Ocurrió un error inesperado en el servidor"
+        path:
+          type: string
+          example: "/student"

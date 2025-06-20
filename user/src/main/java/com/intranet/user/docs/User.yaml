@@ -1,22 +1,36 @@
-openapi: 3.0.4
+openapi: 3.0.3
 info:
   title: Intranet Educativo - User Module
-  description: |-
-    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
-  contact:
-    email: noelrinaya318@gmail.com
   version: 1.0.0
+
 servers:
-  - url: http://localhost:8080/api/v1
-    
+  - url: http://localhost:8081
+
 tags:
   - name: user
     description: All about user module
 
 paths:
+  /user/hi:
+    get:
+      tags:
+        - user
+      summary: Test endpoint
+      description: Returns a greeting string.
+      operationId: testUserModule
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /user:
     post:
       tags:
@@ -25,167 +39,220 @@ paths:
       description: Create a new User.
       operationId: createUser
       requestBody:
-        description: Create a new User in Intranet database
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-        required: true
       responses:
         '200':
-          description: Successful operation
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - user
+      summary: Edit a user
+      description: Edit an existing user.
+      operationId: editUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User modified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/all:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      description: Retrieve a list of all users.
+      operationId: getUsersList
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/allById:
+    post:
+      tags:
+        - user
+      summary: Get users by IDs
+      description: Retrieve a list of users by their IDs.
+      operationId: getUsersListById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: Get user by ID
+      description: Retrieve a user by their ID.
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid ID supplied
         '404':
-          description: Pet not found
-        '422':
-          description: Validation exception
-        default:
-          description: Unexpected error
+          description: User not found
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - user
+      summary: Delete user by ID
+      description: Delete a user by their ID.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
     User:
       type: object
       properties:
-        id:
-          type: string
-          maxLength: 36
-          example: "4a8bd1ce-8cdc-4408-8893-89028d051537"
         name:
           type: string
-          minLength: 2
-          maxLength: 50
-          example: "Fulanito"
         father_surname:
           type: string
-          minLength: 2
-          maxLength: 50
-          example: "Hernandez"
         mother_surname:
           type: string
-          minLength: 2
-          maxLength: 50
-          example: "Juarez"
         born_date:
           type: string
-          format: date
-          example: "1995-04-15"
         phone:
           type: string
-          pattern: "^[+]?\\d{10,15}$"
-          example: "+5215512345678"
         sex:
           type: string
-          enum: ["M", "F", "O"]
-          description: "M: Masculino, F: Femenino, O: Otro"
-          example: "M"
         address:
           type: string
-          minLength: 2
-          maxLength: 100
-          description: Dirección del usuario
-          example: "MTY"
         photo_url:
           type: string
-          format: uri
-          maxLength: 2048
-          example: "https://example.com/photos/noel.jpg"
         role:
           type: string
-          enum: ["student", "teacher", "admin", "staff"]
-          example: "student"
         curp:
           type: string
-          pattern: "^[A-Z]{4}\\d{6}[HM][A-Z]{5}[0-9A-Z]\\d$"
-          minLength: 18
-          maxLength: 18
-          example: "GONL950415HDFRZN09"
         status:
           type: string
-          enum: ["active", "inactive", "banned"]
-          example: "active"
         registry_date:
           type: string
           format: date-time
-          description: Fecha y hora de registro del usuario (ISO 8601)
         email:
           type: string
-          format: email
-          maxLength: 100
-          example: "noel@example.com"
         password:
           type: string
-          format: password
-          minLength: 8
-          maxLength: 64
-          example: "password123"
         access_card_code:
           type: string
-          pattern: "^ACD-\\d{6}$"
-          example: "ACD-123456"
+
     ApiResponse:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
         message:
           type: string
-      xml:
-        name: '##default'
-    Error:
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/User'
+            - type: array
+              items:
+                $ref: '#/components/schemas/User'
+    ErrorResponse:
       type: object
       properties:
-        code:
-          type: string
         message:
           type: string
-      required:
-        - code
-        - message
-  requestBodies:
-    Pet:
-      description: Pet object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/User'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/User'
-    UserArray:
-      description: List of user object
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
-          scopes:
-            "write:pets": modify pets in your account
-            "read:pets": read your pets
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
+        error:
+          type: string
+        status:
+          type: integer

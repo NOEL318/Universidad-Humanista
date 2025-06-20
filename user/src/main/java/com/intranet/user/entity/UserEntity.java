@@ -38,7 +38,6 @@ public class UserEntity {
 	private String photo_url;
 	private String role;
 	private String curp;
-	private String status;
 
 	@CreationTimestamp
 	@Column(updatable = false)

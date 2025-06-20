@@ -52,9 +52,6 @@ public class UserModel {
 	@NotBlank(message = "CURP es un campo obligatorio.")
 	private String curp;
 
-	@NotBlank(message = "Estatus es un campo obligatorio.")
-	private String status;
-
 	@CreationTimestamp
 	@Column(updatable = false)
 	private LocalDateTime registry_date;

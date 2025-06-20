@@ -1,4 +1,4 @@
-package com.intranet.educative_user;
+package com.intranet.member;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

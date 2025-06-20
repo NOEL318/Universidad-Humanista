@@ -3,6 +3,8 @@ package com.intranet.member.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,50 +25,40 @@ public class StudentEntity {
 	@Column(updatable = false, nullable = false)
 	private UUID id;
 
-	@Column(name = "user_id")
-	private UUID userId;
+	private UUID user_id;
 
-	@Column(name = "enrollment_number")
-	private String enrollmentnumber; // matrícula
+	private String enrollment_number; // matrícula
 
-	@Column(name = "academic_program")
-	private String academicProgram;
+	private String academic_program;
 
 	private String semester;
 
 	private String status; // active, suspended, graduated, off
 
-	@Column(name = "advisor_id")
-	private UUID advisorId; // asesor o tutor académico
+	private UUID advisor_id; // asesor o tutor académico
 
-	@Column(name = "enrollment_date", updatable = false)
+	private Double score;
+	@CreationTimestamp
+	@Column(updatable = false)
 	private LocalDateTime enrollment_date; // fecha de inscripción
 
-	@Column(name = "graduation_date")
-	private LocalDateTime graduationDate; // fecha o estimación de graduación
+	private LocalDateTime graduation_date; // fecha o estimación de graduación
+	private UUID group_id;
 
-	@Column(name = "group_id")
-	private UUID groupId;
+	private Boolean scholarship; // tiene beca? true/false
 
-	private Boolean scholarhsip; // tiene beca? true/false
+	private UUID scholarship_id; // ID de la tabla becas en caso de tener beca
 
-	@Column(name = "scholarship_id")
-	private UUID scholarshipId; // ID de la tabla becas en caso de tener beca
+	private String service_social_status;
 
-	@Column(name = "service_social_status")
-	private String serviceSocial;
-
-	@Column(name = "internship_status")
-	private String internship;
+	private String internship_status;
 
 	private String turn;
 
 	private String notes;
+	private UUID medical_record_id;
 
-	@Column(name = "medical_record_id")
-	private UUID medicalRecordId;
-
-	private Integer disciplinaryReportCount;
+	private Integer disciplinary_report_count;
 }
 
 // Tablas generadas a partir de este archivo:
