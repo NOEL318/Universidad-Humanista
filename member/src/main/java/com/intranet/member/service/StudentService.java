@@ -7,7 +7,11 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
 import com.intranet.member.entity.StudentEntity;
 import com.intranet.member.mapper.FullStudentMapper;
 import com.intranet.member.mapper.StudentMapper;
@@ -28,6 +32,9 @@ public class StudentService {
 
 	@Autowired
 	private UserWebClientService userWebClientService;
+
+	private DiscoveryClient discoveryClient;
+	private RestClient restClient;
 
 	private Logger log = LogManager.getLogger(StudentService.class);
 
@@ -75,7 +82,11 @@ public class StudentService {
 				.distinct()
 				.collect(Collectors.toList());
 		// call to user service to get users
-		List<UserModel> userModels = userWebClientService.getUsersListById(userIds);
+		//webclient using
+		//List<UserModel> userModels = userWebClientService.getUsersListById(userIds);
+		//using eureka service
+		ServiceInstance serviceInstance = discoveryClient.getInstances("user").get(0);
+		List<UserModel> userModels = (List<UserModel>) restClient.get().uri(serviceInstance.getUri()+ "/user/allById").retrieve().body(UserModel.class);
 		// Fusion of data
 		List<FullStudentModel> fullstudentlist = student_list_model.stream()
 				.map(student -> fullStudentMapper

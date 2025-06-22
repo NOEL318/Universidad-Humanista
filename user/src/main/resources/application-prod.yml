@@ -2,6 +2,9 @@ spring:
   application:
     name: user
   datasource:
+    url: jdbc:mysql://127.0.0.1:3306/intranetdb?useSSL=false&serverTimezone=UTC
+    username: root
+    password: ""
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -13,10 +16,8 @@ spring:
     open-in-view: false
   security:
     user:
-      name: ''
-      password: ''
-  profiles:
-    active: "dev"
+      name: ""
+      password: ""
 management:
   graphite:
     metrics:
