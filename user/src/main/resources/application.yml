@@ -1,7 +1,9 @@
 spring:
   application:
     name: user
-
+  cloud:
+    config:
+      profile: dev
 management:
   graphite:
     metrics:
@@ -15,5 +17,8 @@ logging:
     org.springframework.web: "debug"
     org.hibernate: "error"
 eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     instance-id: ${spring.application.name}:${random.uuid}

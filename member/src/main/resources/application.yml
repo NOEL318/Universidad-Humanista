@@ -1,7 +1,9 @@
 spring:
   application:
     name: members
-
+  cloud:
+    config:
+      profile: dev
 management:
   graphite:
     metrics:

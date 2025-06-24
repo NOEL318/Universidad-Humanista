@@ -2,6 +2,12 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "ConfigServerApplication",
+			"request": "launch",
+			"mainClass": "com.intranet.config_server.ConfigServerApplication"
+		},
+		{
+			"type": "java",
 			"name": "MemberApplication",
 			"request": "launch",
 			"mainClass": "com.intranet.educative_user.MemberApplication"
@@ -55,7 +61,8 @@
 			"mainClass": "com.intranet.registry.RegistryApplication",
 			"projectName": "registry",
 			"args": "",
-			"envFile": "${workspaceFolder}/.env"
+			"envFile": "${workspaceFolder}/.env",
+			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=51194 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=registry"
 		},
 		{
 			"type": "java",
@@ -65,7 +72,8 @@
 			"mainClass": "com.intranet.member.MemberApplication",
 			"projectName": "member",
 			"args": "",
-			"envFile": "${workspaceFolder}/.env"
+			"envFile": "${workspaceFolder}/.env",
+			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=51193 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=member"
 		}
 	]
 }
