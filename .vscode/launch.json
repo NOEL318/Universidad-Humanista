@@ -44,6 +44,27 @@
 			"mainClass": "com.intranet.user.UserApplication",
 			"projectName": "user",
 			"args": "",
+			"envFile": "${workspaceFolder}/.env",
+			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=49877 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=user"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-RegistryApplication<registry>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.intranet.registry.RegistryApplication",
+			"projectName": "registry",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-MemberApplication<member>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "com.intranet.member.MemberApplication",
+			"projectName": "member",
+			"args": "",
 			"envFile": "${workspaceFolder}/.env"
 		}
 	]
