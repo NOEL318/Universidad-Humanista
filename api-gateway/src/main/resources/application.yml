@@ -17,8 +17,6 @@ spring:
         - Path=/student/**
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
