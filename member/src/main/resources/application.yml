@@ -1,9 +1,22 @@
 spring:
   application:
-    name: members
+    name: member
   cloud:
     config:
       profile: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/intranetdb?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: "root"
 management:
   graphite:
     metrics:

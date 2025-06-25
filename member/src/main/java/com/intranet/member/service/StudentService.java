@@ -30,11 +30,10 @@ public class StudentService {
 	@Autowired
 	private FullStudentMapper fullStudentMapper;
 
-	@Autowired
-	private UserWebClientService userWebClientService;
 
+	@Autowired
 	private DiscoveryClient discoveryClient;
-	private RestClient restClient;
+	private RestClient restClient = RestClient.builder().build();
 
 	private Logger log = LogManager.getLogger(StudentService.class);
 
@@ -49,7 +48,11 @@ public class StudentService {
 				.orElseThrow(() -> new IllegalArgumentException("Something Went Wrong here"));
 		StudentModel model = studentMapper.StudentEntityToModel(entity);
 		System.out.println(model + "esta es mi model");
-		UserModel user = userWebClientService.getUserById(model.getUser_id());
+
+		// "/user/{id}"
+		ServiceInstance serviceInstance = discoveryClient.getInstances("user").get(0);
+		String url = serviceInstance.getUri() + "/user/" + model.getUser_id();
+		UserModel user = restClient.get().uri(url).retrieve().body(UserModel.class);
 		System.out.println(user + "esta es mi user");
 		System.out.println(user.getId() + "esta es mi user");
 		FullStudentModel newuser = fullStudentMapper.toFullStudent(model, user);
@@ -81,12 +84,11 @@ public class StudentService {
 				.map(StudentModel::getUser_id)
 				.distinct()
 				.collect(Collectors.toList());
-		// call to user service to get users
-		//webclient using
-		//List<UserModel> userModels = userWebClientService.getUsersListById(userIds);
-		//using eureka service
+
 		ServiceInstance serviceInstance = discoveryClient.getInstances("user").get(0);
-		List<UserModel> userModels = (List<UserModel>) restClient.get().uri(serviceInstance.getUri()+ "/user/allById").retrieve().body(UserModel.class);
+		List<UserModel> userModels = restClient.post().uri(serviceInstance.getUri() + "/user/allById").body(userIds)
+				.retrieve().body(new org.springframework.core.ParameterizedTypeReference<List<UserModel>>() {
+				});
 		// Fusion of data
 		List<FullStudentModel> fullstudentlist = student_list_model.stream()
 				.map(student -> fullStudentMapper
