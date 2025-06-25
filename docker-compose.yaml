@@ -1,47 +1,94 @@
-version: '3.8'
-
+networks:
+  spring-net:
+    driver: bridge
 services:
-
-  discovery:
-    build: ./discovery
-    container_name: discovery-service
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: intranetdb
     ports:
-      - "8761:8761"
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       - spring-net
 
-  api-gateway:
-    build: ./api-gateway
-    container_name: api-gateway
+  registry:
+    build: ./registry
+    platform: linux/amd64
+    container_name: registry-service
     ports:
-      - "8080:8080"
-    depends_on:
-      - discovery
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - "8761:8761"
+    volumes:
+      - registry_data:/data
     networks:
       - spring-net
 
   user:
     build: ./user
     container_name: user
+    platform: linux/amd64
     depends_on:
-      - discovery
+      - registry
+      - mysql
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    volumes:
+      - user_data:/data
+    networks:
+      - spring-net
+
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    platform: linux/amd64
+    depends_on:
+      - registry
+      - mysql
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    volumes:
+      - config_server_data:/data
     networks:
       - spring-net
 
   member:
     build: ./member
     container_name: member
+    platform: linux/amd64
     depends_on:
-      - discovery
+      - registry
+      - mysql
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    volumes:
+      - member_data:/data
     networks:
       - spring-net
 
-networks:
-  spring-net:
-    driver: bridge
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    platform: linux/amd64
+    ports:
+      - "8080:8080"
+    depends_on:
+      - registry
+      - mysql
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    volumes:
+      - api_gateway_data:/data
+    networks:
+      - spring-net
+
+volumes:
+  registry_data:
+  api_gateway_data:
+  user_data:
+  config_server_data:
+  member_data:
+  mysql_data:
