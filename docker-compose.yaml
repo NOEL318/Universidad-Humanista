@@ -20,6 +20,7 @@ services:
     build: ./registry
     platform: linux/amd64
     container_name: registry-service
+    restart: always
     ports:
       - "8761:8761"
     volumes:
@@ -30,6 +31,7 @@ services:
   user:
     build: ./user
     container_name: user
+    restart: always
     platform: linux/amd64
     depends_on:
       - registry
@@ -44,12 +46,16 @@ services:
   config-server:
     build: ./config-server
     container_name: config-server
+    restart: always
     platform: linux/amd64
+    ports:
+      - "8888:8888"
     depends_on:
       - registry
       - mysql
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - config_server_data:/data
     networks:
@@ -58,6 +64,7 @@ services:
   member:
     build: ./member
     container_name: member
+    restart: always
     platform: linux/amd64
     depends_on:
       - registry
@@ -72,6 +79,7 @@ services:
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
+    restart: always
     platform: linux/amd64
     ports:
       - "8080:8080"
