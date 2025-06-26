@@ -21,9 +21,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build config-server
-        run: cd config-server && ./gradlew build
-
       - name: Build registry
         run: cd registry && ./gradlew build
 
@@ -49,12 +46,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Dependency Submission - config-server
-        uses: gradle/actions/dependency-submission@v4
-        with:
-          gradle-version: '8.5'
-          build-root-directory: config-server
 
       - name: Dependency Submission - registry
         uses: gradle/actions/dependency-submission@v4
