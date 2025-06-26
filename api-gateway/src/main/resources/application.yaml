@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user
+              uri: lb://user
+              predicates:
+                - Path=/user/**
+            - id: member
+              uri: lb://member
+              predicates:
+                - Path=/member/**
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
