@@ -86,8 +86,9 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - registry
-      - mysql
+      - member
+      - user
+      - config-server
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
       - CONFIG_SERVER_URI=http://config-server:8888
