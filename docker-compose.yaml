@@ -70,10 +70,8 @@ services:
     depends_on:
       - member
       - user
-      - config-server
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
-      - CONFIG_SERVER_URI=http://config-server:8888
       - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - api_gateway_data:/data
@@ -84,6 +82,5 @@ volumes:
   registry_data:
   api_gateway_data:
   user_data:
-  config_server_data:
   member_data:
   mysql_data:
