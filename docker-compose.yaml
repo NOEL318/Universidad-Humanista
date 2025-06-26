@@ -39,6 +39,7 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
       - CONFIG_SERVER_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - user_data:/data
     networks:
@@ -73,6 +74,7 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
       - CONFIG_SERVER_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - member_data:/data
     networks:
@@ -91,6 +93,7 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
       - CONFIG_SERVER_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - api_gateway_data:/data
     networks:
