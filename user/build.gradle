@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.bmuschko.docker-remote-api' version '9.4.0'
 }
 
 group = 'com.intranet'
@@ -18,7 +19,6 @@ configurations {
     extendsFrom annotationProcessor
   }
 }
-
 
 repositories {
 	mavenCentral()
@@ -59,4 +59,25 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// Docker tasks
+import com.bmuschko.gradle.docker.tasks.image.*
+
+task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
+    dependsOn build
+    from 'openjdk:17-jdk-alpine'
+    copyFile "build/libs/${project.name}-${project.version}.jar", 'app.jar'
+    entryPoint 'java', '-jar', '/app.jar'
+}
+
+
+task buildDockerImage(type: DockerBuildImage) {
+    dependsOn createDockerfile
+    images = ["${project.group}/${project.name}:${project.version}", "${project.group}/${project.name}:latest"]
+}
+
+task pushDockerImage(type: DockerPushImage) {
+    dependsOn buildDockerImage
+    images = ["${project.group}/${project.name}:${project.version}", "${project.group}/${project.name}:latest"]
 }

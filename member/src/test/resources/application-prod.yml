@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: member
+  security:
+    user:
+      name: ""
+      password: ""
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://mysql:3306/intranetdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: "root"
+
+management:
+  graphite:
+    metrics:
+      export:
+        enabled: false
+
+server:
+  port: 0
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}

@@ -44,24 +44,6 @@ services:
     networks:
       - spring-net
 
-  config-server:
-    build: ./config-server
-    container_name: config-server
-    restart: always
-    platform: linux/amd64
-    ports:
-      - "8888:8888"
-    depends_on:
-      - registry
-      - mysql
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
-      - SPRING_PROFILES_ACTIVE=prod
-    volumes:
-      - config_server_data:/data
-    networks:
-      - spring-net
-
   member:
     build: ./member
     container_name: member

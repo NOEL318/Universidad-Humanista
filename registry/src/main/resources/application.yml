@@ -13,7 +13,6 @@ eureka:
   instance:
     hostname: registry-service
     prefer-ip-address: true
-    ip-address: 74.208.133.36
 
 logging:
   level:
