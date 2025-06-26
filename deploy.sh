@@ -1,3 +1,4 @@
+#!/bin/bash
 cd /Universidad-Humanista || exit
 echo "Pulling latest changes from master..."
 git pull origin master
