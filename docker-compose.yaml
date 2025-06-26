@@ -38,7 +38,6 @@ services:
       - mysql
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
-      - CONFIG_SERVER_URI=http://config-server:8888
       - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - user_data:/data
@@ -73,7 +72,6 @@ services:
       - mysql
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
-      - CONFIG_SERVER_URI=http://config-server:8888
       - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - member_data:/data
