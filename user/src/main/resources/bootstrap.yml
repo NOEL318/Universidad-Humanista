@@ -5,3 +5,7 @@ spring:
     config:
       uri: http://config-server:8888
       fail-fast: true
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://registry-service:8761/eureka/}
