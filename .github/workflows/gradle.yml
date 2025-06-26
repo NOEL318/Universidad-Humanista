@@ -13,31 +13,28 @@ jobs:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+      - name: Build config-server
+        run: cd config-server && ./gradlew build
 
-    - name: Build config-server
-      run: cd config-server && ./gradlew build
+      - name: Build registry
+        run: cd registry && ./gradlew build
 
-    - name: Build registry
-      run: cd registry && ./gradlew build
+      - name: Build api-gateway
+        run: cd api-gateway && ./gradlew build
 
-    - name: Build api-gateway
-      run: cd api-gateway && ./gradlew build
+      - name: Build user
+        run: cd user && ./gradlew build
 
-    - name: Build user
-      run: cd user && ./gradlew build
-
-    - name: Build member
-      run: cd member && ./gradlew build
+      - name: Build member
+        run: cd member && ./gradlew build
 
   dependency-submission:
     runs-on: ubuntu-latest
@@ -45,12 +42,40 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - uses: actions/checkout@v4
 
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Dependency Submission - config-server
+        uses: gradle/actions/dependency-submission@v4
+        with:
+          gradle-version: '8.5'
+          build-root-directory: config-server
+
+      - name: Dependency Submission - registry
+        uses: gradle/actions/dependency-submission@v4
+        with:
+          gradle-version: '8.5'
+          build-root-directory: registry
+
+      - name: Dependency Submission - api-gateway
+        uses: gradle/actions/dependency-submission@v4
+        with:
+          gradle-version: '8.5'
+          build-root-directory: api-gateway
+
+      - name: Dependency Submission - user
+        uses: gradle/actions/dependency-submission@v4
+        with:
+          gradle-version: '8.5'
+          build-root-directory: user
+
+      - name: Dependency Submission - member
+        uses: gradle/actions/dependency-submission@v4
+        with:
+          gradle-version: '8.5'
+          build-root-directory: member
