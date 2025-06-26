@@ -38,6 +38,7 @@ services:
       - mysql
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - CONFIG_SERVER_URI=http://config-server:8888
     volumes:
       - user_data:/data
     networks:
@@ -71,6 +72,7 @@ services:
       - mysql
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - CONFIG_SERVER_URI=http://config-server:8888
     volumes:
       - member_data:/data
     networks:
@@ -88,6 +90,7 @@ services:
       - mysql
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - CONFIG_SERVER_URI=http://config-server:8888
     volumes:
       - api_gateway_data:/data
     networks:
