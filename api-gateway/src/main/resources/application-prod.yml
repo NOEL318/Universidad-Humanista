@@ -16,7 +16,7 @@ spring:
             - id: member
               uri: lb://member
               predicates:
-                - Path=/member/**
+                - Path=/student/**
 eureka:
   client:
     register-with-eureka: true
