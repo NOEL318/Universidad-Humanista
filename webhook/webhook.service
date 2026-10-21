@@ -1,0 +1,13 @@
+[Unit]
+Description=Webhook de GitHub para Universidad Humanista
+After=network.target
+
+[Service]
+EnvironmentFile=__APP_DIR__/.env
+Environment=APP_DIR=__APP_DIR__
+ExecStart=/usr/bin/webhook -hooks __APP_DIR__/webhook/hooks.json -template -port 9000 -verbose
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
