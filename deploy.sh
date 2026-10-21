@@ -1,11 +1,11 @@
 #!/bin/bash
-cd /Universidad-Humanista || exit
+# Lo ejecuta el webhook de github en cada push a master
+cd "$(dirname "$0")" || exit 1
 echo "Pulling latest changes from master..."
-git pull origin master
+git fetch origin master
+git reset --hard origin/master
 
 echo "Reconstruyendo app..."
-# Si usas Docker:
-docker compose down
-docker compose up -d --build
+./scripts/k8s-up.sh
 
 echo "¡Deploy terminado!"
