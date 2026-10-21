@@ -2,78 +2,43 @@
 	"configurations": [
 		{
 			"type": "java",
-			"name": "ConfigServerApplication",
+			"name": "ApiGatewayApplication",
 			"request": "launch",
-			"mainClass": "com.intranet.config_server.ConfigServerApplication"
+			"mainClass": "com.intranet.api_gateway.ApiGatewayApplication",
+			"projectName": "api-gateway",
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "AuthApplication",
+			"request": "launch",
+			"mainClass": "com.intranet.auth.AuthApplication",
+			"projectName": "auth",
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "UserApplication",
+			"request": "launch",
+			"mainClass": "com.intranet.user.UserApplication",
+			"projectName": "user",
+			"envFile": "${workspaceFolder}/.env"
 		},
 		{
 			"type": "java",
 			"name": "MemberApplication",
 			"request": "launch",
-			"mainClass": "com.intranet.educative_user.MemberApplication"
-		},
-		{
-			"type": "java",
-			"name": "Spring Boot-AlumnosApplication<Alumnos>",
-			"request": "launch",
-			"cwd": "${workspaceFolder}",
-			"mainClass": "com.universidadhumanista.Alumnos.AlumnosApplication",
-			"projectName": "Alumnos",
-			"args": "",
-			"envFile": "${workspaceFolder}/.env"
-		},
-		{
-			"type": "java",
-			"name": "Spring Boot-ProfesoresApplication<Profesores>",
-			"request": "launch",
-			"cwd": "${workspaceFolder}",
-			"mainClass": "com.universidadhumanista.Profesores.ProfesoresApplication",
-			"projectName": "Profesores",
-			"args": "",
-			"envFile": "${workspaceFolder}/.env"
-		},
-		{
-			"type": "java",
-			"name": "Spring Boot-ServiceRegistryApplication<ServiceRegistry>",
-			"request": "launch",
-			"cwd": "${workspaceFolder}",
-			"mainClass": "com.universidadhumanista.ServiceRegistry.ServiceRegistryApplication",
-			"projectName": "ServiceRegistry",
-			"args": "",
-			"envFile": "${workspaceFolder}/.env"
-		},
-		{
-			"type": "java",
-			"name": "Spring Boot-UserApplication<user>",
-			"request": "launch",
-			"cwd": "${workspaceFolder}",
-			"mainClass": "com.intranet.user.UserApplication",
-			"projectName": "user",
-			"args": "",
-			"envFile": "${workspaceFolder}/.env",
-			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=49877 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=user"
-		},
-		{
-			"type": "java",
-			"name": "Spring Boot-RegistryApplication<registry>",
-			"request": "launch",
-			"cwd": "${workspaceFolder}",
-			"mainClass": "com.intranet.registry.RegistryApplication",
-			"projectName": "registry",
-			"args": "",
-			"envFile": "${workspaceFolder}/.env",
-			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=51194 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=registry"
-		},
-		{
-			"type": "java",
-			"name": "Spring Boot-MemberApplication<member>",
-			"request": "launch",
-			"cwd": "${workspaceFolder}",
 			"mainClass": "com.intranet.member.MemberApplication",
 			"projectName": "member",
-			"args": "",
-			"envFile": "${workspaceFolder}/.env",
-			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=51193 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=member"
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "AcademicApplication",
+			"request": "launch",
+			"mainClass": "com.intranet.academic.AcademicApplication",
+			"projectName": "academic",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }

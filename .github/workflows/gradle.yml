@@ -21,11 +21,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build registry
-        run: cd registry && ./gradlew build
-
       - name: Build api-gateway
         run: cd api-gateway && ./gradlew build
+
+      - name: Build auth
+        run: cd auth && ./gradlew build
 
       - name: Build user
         run: cd user && ./gradlew build
@@ -33,40 +33,20 @@ jobs:
       - name: Build member (sin tests)
         run: cd member && ./gradlew build -x test
 
-  dependency-submission:
+      - name: Build academic
+        run: cd academic && ./gradlew build
+
+  frontend:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/setup-node@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          node-version: '22'
 
-      - name: Dependency Submission - registry
-        uses: gradle/actions/dependency-submission@v4
-        with:
-          gradle-version: '8.5'
-          build-root-directory: registry
-
-      - name: Dependency Submission - api-gateway
-        uses: gradle/actions/dependency-submission@v4
-        with:
-          gradle-version: '8.5'
-          build-root-directory: api-gateway
-
-      - name: Dependency Submission - user
-        uses: gradle/actions/dependency-submission@v4
-        with:
-          gradle-version: '8.5'
-          build-root-directory: user
-
-      - name: Dependency Submission - member
-        uses: gradle/actions/dependency-submission@v4
-        with:
-          gradle-version: '8.5'
-          build-root-directory: member
+      - name: Build frontend
+        run: cd frontend && npm ci && npm run build
