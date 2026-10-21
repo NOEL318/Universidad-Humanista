@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: academic
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:intranetdb}
+    username: ${DB_USER:intranet}
+    password: ${DB_PASSWORD:intranet}
+server:
+  port: ${PORT:8083}
