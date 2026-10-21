@@ -7,8 +7,6 @@ plugins {
 group = 'com.intranet'
 version = '0.0.1-SNAPSHOT'
 
-
-
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
@@ -24,9 +22,6 @@ configurations {
 repositories {
 	mavenCentral()
 }
-ext {
-  set('springCloudVersion', "2025.0.0")
-}
 dependencies {
 	// Spring
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -34,7 +29,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -43,7 +37,7 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 	// Database
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.postgresql:postgresql'
 	// Micrometer
 	runtimeOnly 'io.micrometer:micrometer-registry-graphite'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
@@ -52,20 +46,9 @@ dependencies {
 	// Testing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	// Cloud
-	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	//Logger
 	 implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-	//Eureka client
-	  implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-}
-
-dependencyManagement {
-  imports {
-    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-  }
 }
 
 tasks.named('test') {

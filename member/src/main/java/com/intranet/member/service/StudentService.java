@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -31,8 +30,8 @@ public class StudentService {
 	private FullStudentMapper fullStudentMapper;
 
 
-	@Autowired
-	private DiscoveryClient discoveryClient;
+	@Value("${services.user}")
+	private String userUrl;
 	private RestClient restClient = RestClient.builder().build();
 
 	private Logger log = LogManager.getLogger(StudentService.class);
@@ -47,19 +46,22 @@ public class StudentService {
 		StudentEntity entity = studentRepository.findById(UUID.fromString(id))
 				.orElseThrow(() -> new IllegalArgumentException("Something Went Wrong here"));
 		StudentModel model = studentMapper.StudentEntityToModel(entity);
-		System.out.println(model + "esta es mi model");
+		return withUser(model);
+	}
 
-		// "/user/{id}"
-		ServiceInstance serviceInstance = discoveryClient.getInstances("user").get(0);
-		String url = serviceInstance.getUri() + "/user/" + model.getUser_id();
-		UserModel user = restClient.get().uri(url).retrieve().body(UserModel.class);
-		System.out.println(user + "esta es mi user");
-		System.out.println(user.getId() + "esta es mi user");
-		FullStudentModel newuser = fullStudentMapper.toFullStudent(model, user);
-		return newuser;
+	public FullStudentModel findByUserId(UUID userId) {
+		StudentEntity entity = studentRepository.findByUserId(userId)
+				.orElseThrow(() -> new IllegalArgumentException("Student Not Found"));
+		return withUser(studentMapper.StudentEntityToModel(entity));
+	}
+
+	private FullStudentModel withUser(StudentModel model) {
+		UserModel user = restClient.get().uri(userUrl + "/user/" + model.getUser_id()).retrieve().body(UserModel.class);
+		return fullStudentMapper.toFullStudent(model, user);
 	}
 
 	public StudentModel updateStudentFromDatabase(String id, StudentModel newuser) {
+		newuser.setId(UUID.fromString(id));
 		StudentEntity student = studentMapper.StudentModelToEntity(newuser);
 		// Exist?
 		studentRepository.findById(student.getId()).orElseThrow(() -> new IllegalArgumentException("User Not Found"));
@@ -85,8 +87,7 @@ public class StudentService {
 				.distinct()
 				.collect(Collectors.toList());
 
-		ServiceInstance serviceInstance = discoveryClient.getInstances("user").get(0);
-		List<UserModel> userModels = restClient.post().uri(serviceInstance.getUri() + "/user/allById").body(userIds)
+		List<UserModel> userModels = restClient.post().uri(userUrl + "/user/allById").body(userIds)
 				.retrieve().body(new org.springframework.core.ParameterizedTypeReference<List<UserModel>>() {
 				});
 		// Fusion of data
