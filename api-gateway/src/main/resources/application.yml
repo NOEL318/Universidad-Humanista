@@ -1,0 +1,34 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: api-gateway
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth
+              uri: ${AUTH_URL:http://localhost:8084}
+              predicates:
+                - Path=/auth/**
+            - id: user
+              uri: ${USER_URL:http://localhost:8081}
+              predicates:
+                - Path=/user/**
+            - id: member
+              uri: ${MEMBER_URL:http://localhost:8082}
+              predicates:
+                - Path=/student/**,/teacher/**,/medical/**
+            - id: academic
+              uri: ${ACADEMIC_URL:http://localhost:8083}
+              predicates:
+                - Path=/group/**,/subject/**,/enrollment/**,/grade/**,/task/**
+
+services:
+  auth: ${AUTH_URL:http://localhost:8084}
