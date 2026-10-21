@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
 
 	public UserEntity() {
@@ -45,6 +45,7 @@ public class UserEntity {
 
 	// Security
 	@Email
+	@Column(unique = true)
 	private String email;
 	private String password;
 

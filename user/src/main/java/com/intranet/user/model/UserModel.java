@@ -1,5 +1,6 @@
 package com.intranet.user.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class UserModel {
+public class UserModel implements Serializable {
 
 	public UserModel() {
 
@@ -40,10 +41,8 @@ public class UserModel {
 	private String sex;
 
 	@NotBlank(message = "Dirección es un campo obligatorio.")
-
 	private String address;
 
-	@NotBlank(message = "La fotografía es un campo obligatorio.")
 	private String photo_url;
 
 	@NotBlank(message = "El rol es un campo obligatorio.")

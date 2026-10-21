@@ -3,6 +3,7 @@ package com.intranet.user.mapper;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.intranet.user.entity.UserEntity;
 import com.intranet.user.model.UserModel;
@@ -14,6 +15,7 @@ public interface UserMapper {
 	// Individual User
 	UserEntity UserModelToEntity(UserModel user);
 
+	@Mapping(target = "password", ignore = true)
 	UserModel UserEntityToModel(UserEntity user);
 
 	// List of Users
